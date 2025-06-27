@@ -4,6 +4,7 @@ from networksecurity.logging.logger import logging
 # dataingestion config also required to actually perform the stuff
 
 from networksecurity.entity.config_entity import DataInjestionConfig
+# artifact will be the output form here
 from networksecurity.entity.artifact_entity import DataIngestionArtifact
 import os
 import sys
