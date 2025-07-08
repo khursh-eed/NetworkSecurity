@@ -20,6 +20,10 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import (AdaBoostClassifier,GradientBoostingClassifier,RandomForestClassifier)
 from sklearn.tree import DecisionTreeClassifier
 
+import mlflow
+import dagshub
+dagshub.init(repo_owner='khursh-eed', repo_name='NetworkSecurity', mlflow=True)
+
 class Trainer:
     def __init__(self,model_trainer_config = ModelTrainerConfig,data_transformation_artificat= DataTransformationArtifact):
 
@@ -29,6 +33,18 @@ class Trainer:
             self.data_trans_artifact =data_transformation_artificat
         except Exception as e:
             raise NetworkSecurityException(e,sys)
+        
+    def track_mlflow(self, best_model, classification_metric):
+        with mlflow.start_run():
+            f1_score= classification_metric.f1_score
+            recall_score = classification_metric.recall_score
+            precision_score = classification_metric.precision_Score
+
+            mlflow.log_metric("f1_score",f1_score)
+            mlflow.log_metric("recall_score",recall_score)
+            mlflow.log_metric("precision_score",precision_score)
+            mlflow.sklearn.log_model(best_model,"model")
+
         
     def train_model(self,x_train, y_train, x_test, y_test):
         models = { 
@@ -89,11 +105,13 @@ class Trainer:
 
         classification_train_metric = get_classification_score(y_true= y_train,y_pred = y_train_predict)
         
-        # track the mlflow
+        # tracking experiments w  mlflow
+        self.track_mlflow(best_model,classification_train_metric)
 
         y_test_pred = best_model.predict(x_test)
         classification_test_metric = get_classification_score(y_true= y_test,y_pred = y_test_pred)
 
+        self.track_mlflow(best_model,classification_test_metric)
 
         # KNN imputer
         preprocessor = load_object(file_path = self.data_trans_artifact.transformed_object_file_path)
@@ -106,7 +124,7 @@ class Trainer:
 
         # Model trainer artifiact
 
-        model_trainer_Artiefcat = ModelTrainerArtifact(trained_model_file_path = self.model_trainer_config.model_trainer_trained_model_file_path,
+        model_trainer_Artiefcat = ModelTrainerArtifact(model_trainer_file_path= self.model_trainer_config.model_trainer_trained_model_file_path,
                              train_metric_artifact=classification_train_metric,
                              test_metric_artifact=classification_test_metric,
                              )
