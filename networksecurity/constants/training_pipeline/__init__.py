@@ -42,3 +42,12 @@ DATA_TRANFORMATION_INPUT_PARAMS: dict={
     "weights" : "uniform",
 }
 
+# model trainer constants
+MODEL_TRAINER_DIR_NAME: str="model_trainer"
+MODEL_TRAINER_TRAINED_MODEL_DIR_NAME:str ="trained_model"
+MODEL_TRAINER_TRAINED_MODEL_FILE_NAME: str = "model.pkl"
+MODEL_TRAINER_TRAINED_MODEL_EXPECTED_SCORE: float =0.6
+MODEL_TRAINER_OVERFITTING_AND_UNDERFITTING_THRESHOLD: float = 0.05
+SAVED_MODEL_DIR: str =os.path.join("saved_models")
+
+
