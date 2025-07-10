@@ -9,8 +9,10 @@ dotenv
 scikit-learn
 dill
 pyaml
-mlflow<3
+"mlflow <3"
 dagshub
+fastapi
+uvicorn
 
 
 

@@ -122,6 +122,7 @@ class Trainer:
 
         save_object(self.model_trainer_config.model_trainer_trained_model_file_path,obj=Network_Model)
 
+        save_object("final_model/model.pkl",best_model)
         # Model trainer artifiact
 
         model_trainer_Artiefcat = ModelTrainerArtifact(model_trainer_file_path= self.model_trainer_config.model_trainer_trained_model_file_path,
