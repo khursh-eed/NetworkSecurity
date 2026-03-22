@@ -34,7 +34,7 @@ class DataIngestion:
             collection = self.mongo_client[db_name][collection_name]
 
             df = pd.DataFrame(list(collection.find()))
-            # there'll be one default column from mongodb
+            # there'll be one default column from mongodb - drop it
             if "_id" in df.columns.tolist():
                 df =df.drop(columns=["_id"],axis=1)
 

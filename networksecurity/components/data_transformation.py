@@ -36,6 +36,7 @@ class DataTransformation:
             # double star to show key value pair
             imputer:KNNImputer= KNNImputer(**DATA_TRANFORMATION_INPUT_PARAMS)
             logging.info("initiased KNN imputer")
+            
             # processor is of pipeline type, and we name the imputer as "imputer"
             processor:Pipeline=Pipeline([("imputer",imputer)])      
 

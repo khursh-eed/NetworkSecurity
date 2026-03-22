@@ -13,6 +13,7 @@ class TrainingPipelineConfig:
         # we're making the artifact dir for each timestamp (its path only)
         self.artifact_dir = os.path.join(self.artifact_name,timestamp)
         self.timestamp : str=timestamp
+        self.model_dir = os.path.join("final_model")
 
 
 # all the paths tht'll be used in data ingestion
